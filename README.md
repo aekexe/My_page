@@ -1,4 +1,6 @@
 Hi my name is jeff
+<!DOCTYPE html>
+
 <html>
   <head>
   <body>
