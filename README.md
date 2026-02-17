@@ -6,11 +6,7 @@
 
 ---
 
-## 📊 My Stats
 
-![GitHub Stats]([https://github-readme-stats.vercel.app/api?username=aekexe&show_icons=true&theme=dark](https://socialify.git.ci/aekexe/My_page/image?description=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Light))
-
----
 
 ## 🌐 Connect With Me
 
