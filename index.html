@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AEK Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" type="image/x-icon" href="asstets/favicon.ico" />
+  <style>
+    :root {
+      --bg: #050806;
+      --green: #39ff88;
+      --green-dim: #1c8f52;
+      --magenta: #ff2fd1;
+      --panel: rgba(20, 40, 28, 0.35);
+      --border: rgba(57, 255, 136, 0.35);
+      --text: #b8ffd4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+    }
+
+    body {
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* scanline overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 2px,
+        rgba(0, 0, 0, 0.15) 3px
+      );
+      z-index: 10;
+    }
+
+    /* faint background grid */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(57, 255, 136, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57, 255, 136, 0.05) 1px, transparent 1px);
+      background-size: 32px 32px;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 16px 80px;
+    }
+
+    audio {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto 28px;
+      filter: hue-rotate(60deg) saturate(1.4);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--green);
+      text-decoration: none;
+      font-size: 13px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      transition: 0.15s ease;
+    }
+
+    .social-btn::before { content: "["; color: var(--green-dim); }
+    .social-btn::after { content: "]"; color: var(--green-dim); }
+
+    .social-btn:hover {
+      background: rgba(57, 255, 136, 0.12);
+      color: #eaffef;
+      text-shadow: 0 0 8px var(--green);
+    }
+
+    .banner {
+      font-family: 'Share Tech Mono', monospace;
+      text-align: center;
+      color: var(--green-dim);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: clamp(22px, 5.5vw, 32px);
+      text-align: center;
+      margin: 0 0 8px;
+      color: var(--green);
+      text-shadow: 0 0 6px rgba(57, 255, 136, 0.6), 0 0 20px rgba(57, 255, 136, 0.25);
+    }
+
+    h1::before { content: "> "; color: var(--magenta); }
+    h1::after {
+      content: "_";
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .subtext {
+      text-align: center;
+      color: var(--green-dim);
+      font-size: 13px;
+      margin-bottom: 40px;
+    }
+
+    .terminal {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      margin-bottom: 24px;
+      box-shadow: 0 0 24px rgba(57, 255, 136, 0.06);
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: rgba(57, 255, 136, 0.08);
+      border-bottom: 1px solid var(--border);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--green-dim);
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green-dim);
+      opacity: 0.6;
+    }
+
+    .terminal-body {
+      padding: 22px;
+    }
+
+    .terminal-body h2 {
+      font-size: 16px;
+      margin: 0 0 14px;
+      color: var(--green);
+    }
+
+    .terminal-body h2::before { content: "$ "; color: var(--magenta); }
+
+    .terminal-body img {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+      filter: saturate(0.9) contrast(1.05);
+      display: block;
+    }
+
+    .terminal-body p {
+      color: var(--text);
+      opacity: 0.85;
+      font-size: 13.5px;
+      line-height: 1.7;
+      margin: 0 0 18px;
+    }
+
+    .terminal-body p::before {
+      content: "# ";
+      color: var(--green-dim);
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: transparent;
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      text-decoration: none;
+      transition: 0.15s ease;
+    }
+
+    .download-btn:hover {
+      background: var(--green);
+      color: #04120a;
+      box-shadow: 0 0 16px rgba(57, 255, 136, 0.5);
+    }
+
+    .disabled-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px dashed var(--green-dim);
+      color: var(--green-dim);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <audio controls autoplay loop src="Woodshedder - Quincas Moreira.mp3"></audio>
+
+    <div class="social-links">
+      <a href="https://www.instagram.com/ae_k.exe/" target="_blank" class="social-btn">
+        <i class="fab fa-instagram"></i> instagram
+      </a>
+      <a href="https://www.tiktok.com/@abdodz8148" target="_blank" class="social-btn">
+        <i class="fab fa-tiktok"></i> tiktok
+      </a>
+      <a href="https://www.youtube.com/@dzwilliam" target="_blank" class="social-btn">
+        <i class="fab fa-youtube"></i> youtube
+      </a>
+    </div>
+
+    <div class="banner">root@aek:~$</div>
+    <h1>my apps and stuff</h1>
+    <div class="subtext">// personal build log</div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        wifi_cracker.exe
+      </div>
+      <div class="terminal-body">
+        <h2>Wifi Cracker</h2>
+        <img src="asstets/wIfi_craker.png" alt="Wifi Cracker">
+        <p>converts the ssid from a fiberhome wifi modem that starts with "fh_" to the network's password.</p>
+        <a class="download-btn" href="asstets/wIFI cracker.apk">
+          <i class="fa-solid fa-download"></i> download.apk
+        </a>
+      </div>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        fiber_optic_pw.exe
+      </div>
+      <div class="terminal-body">
+        <h2>Fiber Optic Password</h2>
+        <img src="asstets/fiber_optic.png" alt="Fiber Optic Password">
+        <p>the earlier version of the wifi cracker app.</p>
+        <a class="download-btn" href="asstets/fiberopticpasswordcracker_v1.apk">
+          <i class="fa-solid fa-download"></i> download.apk
+        </a>
+      </div>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        passgen.exe
+      </div>
+      <div class="terminal-body">
+        <h2>PassGen</h2>
+        <img src="asstets/PassGEN.png" alt="PassGen">
+        <p>gives you the super admin password for a fiberhome gpon uno hg6145f1 from the modem's mac address, username "admin".</p>
+        <span class="disabled-btn">
+          <i class="fa-solid fa-lock"></i> coming soon
+        </span>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
